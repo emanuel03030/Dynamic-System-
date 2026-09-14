@@ -1,0 +1,1027 @@
+﻿<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- FORMULÃRIOS PROFISSIONAIS REFATORADOS - PortfÃ³lio GestÃ£o de Colaboradores                   -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 
+ESTRUTURA PROFISSIONAL DE FORMULÃRIOS:
+âœ“ ValidaÃ§Ã£o em tempo real
+âœ“ Estados de erro/sucesso visuais
+âœ“ Acessibilidade completa (ARIA, labels, etc)
+âœ“ Responsividade profissional
+âœ“ UX aprimorada com feedback visual
+âœ“ Tratamento de dados robusto
+âœ“ PadrÃ£o corporativo consistente
+-->
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 1. MODAL: COLABORADORES (Refatorado)                                                         -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="Collaborator-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6" role="dialog" aria-labelledby="Collaborator-modal-title" aria-modal="true">
+  <div class="glass-modal-inner Collaborator-modal-card rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fadeIn">
+    
+    <!-- CABEÃ‡ALHO DO MODAL -->
+    <div class="glass-modal-bar flex justify-between items-center p-4 sm:p-6 border-b border-white/10">
+      <div>
+        <h2 id="Collaborator-modal-title" class="text-xl sm:text-2xl font-bold text-white">Cadastro de Colaborador</h2>
+        <p class="text-sm text-gray-300 mt-1">Preencha os dados do novo colaborador ou atualize os existentes</p>
+      </div>
+      <button 
+        onclick="hideCollaboratorModal()" 
+        type="button"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-300 hover:text-white"
+        aria-label="Fechar modal"
+        title="Fechar (ESC)"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CONTEÃšDO DO FORM - SCROLLÃVEL -->
+    <div class="flex-1 overflow-y-auto">
+      <form id="Collaborator-form" onsubmit="saveCollaborator(event)" class="p-4 sm:p-6 space-y-6">
+        <input type="hidden" id="Collaborator-edit-id">
+        
+        <!-- SEÃ‡ÃƒO 1: DADOS BÃSICOS -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+            Dados Pessoais
+          </h3>
+          
+          <!-- Nome Completo -->
+          <div>
+            <label for="emp-name" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Nome Completo
+            </label>
+            <input 
+              type="text" 
+              id="emp-name" 
+              name="name"
+              required
+              placeholder="Ex: JoÃ£o da Silva"
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+              aria-required="true"
+              aria-describedby="emp-name-error"
+            >
+            <span id="emp-name-error" class="hidden text-red-400 text-xs mt-1 block"></span>
+          </div>
+
+          <!-- Departamento e Cargo em Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Departamento -->
+            <div>
+              <label for="emp-department" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Departamento
+              </label>
+              <select 
+                id="emp-department" 
+                name="department"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none cursor-pointer"
+                aria-required="true"
+              >
+                <option value="" disabled>Selecione o departamento</option>
+                <option value="Vendas">Vendas</option>
+                <option value="Administrativo">Administrativo</option>
+                <option value="RH">Recursos Humanos</option>
+                <option value="TI">TI / Desenvolvimento</option>
+                <option value="LogÃ­stica">LogÃ­stica</option>
+                <option value="Financeiro">Financeiro</option>
+              </select>
+            </div>
+
+            <!-- Cargo -->
+            <div>
+              <label for="emp-position" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Cargo
+              </label>
+              <input 
+                type="text" 
+                id="emp-position" 
+                name="position"
+                required
+                placeholder="Ex: Analista de Vendas"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <!-- Checkbox: Ã‰ Gerente -->
+          <div class="flex items-start gap-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <input 
+              type="checkbox" 
+              id="emp-is-manager" 
+              name="isManager"
+              class="mt-1 w-5 h-5 accent-orange-500 cursor-pointer rounded"
+              onchange="toggleManagerFields(this.checked)"
+            >
+            <div>
+              <label for="emp-is-manager" class="text-sm font-medium text-gray-200 cursor-pointer block">
+                Ã‰ Gerente?
+              </label>
+              <p class="text-xs text-gray-400 mt-1">Gerentes aparecem na Escala de Gerentes e tÃªm configuraÃ§Ã£o diferente</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÃ‡ÃƒO 2: HORÃRIOS E TURNOS -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00-.447.894l1.006.557A1 1 0 0010 14V6z" clip-rule="evenodd"></path>
+            </svg>
+            ConfiguraÃ§Ã£o de HorÃ¡rios
+          </h3>
+
+          <!-- Perfil de Domingo -->
+          <div id="sunday-profile-field">
+            <label for="emp-sunday-profile" class="block text-sm font-semibold text-gray-200 mb-2">
+              Perfil de Domingo (Opcional)
+            </label>
+            <select 
+              id="emp-sunday-profile" 
+              name="sundayProfile"
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+            >
+              <option value="">NÃ£o se Aplica</option>
+              <option value="domingo_10_18">PadrÃ£o: 10h - 18h</option>
+              <option value="domingo_8_16">Turma: 08h - 16h</option>
+              <option value="domingo_fiscal_8_18">Fiscal: 08h - 18h</option>
+              <option value="domingo_empacotador_9_18">Empacotador: 09h - 18h</option>
+            </select>
+            <p class="text-xs text-gray-400 mt-1">Defina qual escala de domingo este colaborador pode receber</p>
+          </div>
+
+          <!-- Turno da Semana -->
+          <div id="week-shift-field">
+            <label for="emp-week-shift" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Turno da Semana
+            </label>
+            <select 
+              id="emp-week-shift" 
+              name="weekShift"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              aria-required="true"
+            >
+              <option value="" disabled>Selecione o turno da semana</option>
+              <option value="semana_manha_8_1712">ManhÃ£: 08h - 17:12</option>
+              <option value="semana_noite_12_2112">Noite: 11:50 - 21:12</option>
+              <option value="semana_intermediario_10_19">IntermediÃ¡rio: 10h - 19h</option>
+            </select>
+          </div>
+
+          <!-- Turno de SÃ¡bado -->
+          <div id="saturday-shift-field">
+            <label for="emp-saturday-shift" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Turno de SÃ¡bado
+            </label>
+            <select 
+              id="emp-saturday-shift" 
+              name="saturdayShift"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              aria-required="true"
+            >
+              <option value="" disabled>Selecione o turno de sÃ¡bado</option>
+              <option value="sabado_manha_8_18">ManhÃ£: 07:50 - 18h</option>
+              <option value="sabado_noite_11_2112">Noite: 11h - 21:12</option>
+            </select>
+          </div>
+
+          <!-- Folga Fixa Semanal -->
+          <div>
+            <label for="emp-weekly-off" class="block text-sm font-semibold text-gray-200 mb-2">
+              Folga Fixa Semanal
+            </label>
+            <select 
+              id="emp-weekly-off" 
+              name="weeklyOff"
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+            >
+              <option value="">AutomÃ¡tico por rodÃ­zio</option>
+              <option value="segunda">Segunda-feira</option>
+              <option value="terca">TerÃ§a-feira</option>
+              <option value="quarta">Quarta-feira</option>
+              <option value="quinta">Quinta-feira</option>
+              <option value="sexta">Sexta-feira</option>
+              <option value="sabado">SÃ¡bado</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- SEÃ‡ÃƒO 3: DADOS DE CONTATO -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            Dados de Contato
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Email -->
+            <div>
+              <label for="emp-email" class="block text-sm font-semibold text-gray-200 mb-2">
+                Email
+              </label>
+              <input 
+                type="email" 
+                id="emp-email" 
+                name="email"
+                placeholder="joao@empresa.com"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+              >
+            </div>
+
+            <!-- Telefone -->
+            <div>
+              <label for="emp-phone" class="block text-sm font-semibold text-gray-200 mb-2">
+                Telefone
+              </label>
+              <input 
+                type="tel" 
+                id="emp-phone" 
+                name="phone"
+                placeholder="(11) 99999-9999"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- ÃREA DE ERROS E AVISOS -->
+        <div id="Collaborator-form-errors" class="hidden space-y-2 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+          <p class="text-sm font-medium text-red-300 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+            </svg>
+            Erros encontrados:
+          </p>
+          <ul id="Collaborator-error-list" class="text-sm text-red-300 list-disc list-inside"></ul>
+        </div>
+      </form>
+    </div>
+
+    <!-- RODAPÃ‰ DO MODAL - BOTÃ•ES -->
+    <div class="flex gap-3 p-4 sm:p-6 border-t border-white/10 bg-black/20">
+      <button 
+        type="button"
+        onclick="hideCollaboratorModal()" 
+        class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        form="Collaborator-form"
+        id="Collaborator-submit-btn"
+        class="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span class="flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Salvar Colaborador
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 2. MODAL: AUSÃŠNCIAS (Refatorado)                                                              -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="absence-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6" role="dialog" aria-labelledby="absence-modal-title" aria-modal="true">
+  <div class="glass-modal-inner absence-modal-card rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fadeIn">
+    
+    <!-- CABEÃ‡ALHO -->
+    <div class="glass-modal-bar flex justify-between items-center p-4 sm:p-6 border-b border-white/10">
+      <div>
+        <h2 id="absence-modal-title" class="text-xl sm:text-2xl font-bold text-white">Registrar AusÃªncia</h2>
+        <p class="text-sm text-gray-300 mt-1">Registre faltas, fÃ©rias, atestados e outras ausÃªncias</p>
+      </div>
+      <button 
+        onclick="hideAbsenceModal()" 
+        type="button"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-300 hover:text-white"
+        aria-label="Fechar modal"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CONTEÃšDO -->
+    <div class="flex-1 overflow-y-auto">
+      <form id="absence-form" onsubmit="saveAbsence(event)" class="p-4 sm:p-6 space-y-6">
+        <input type="hidden" id="absence-edit-id">
+
+        <!-- SEÃ‡ÃƒO 1: DADOS DA AUSÃŠNCIA -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">Dados da AusÃªncia</h3>
+
+          <!-- Colaborador -->
+          <div>
+            <label for="abs-Collaborator" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Colaborador
+            </label>
+            <select 
+              id="abs-Collaborator" 
+              name="Collaborator"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              aria-required="true"
+            >
+              <option value="" disabled>Selecione um colaborador</option>
+            </select>
+          </div>
+
+          <!-- Tipo de AusÃªncia -->
+          <div>
+            <label for="abs-type" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Tipo de AusÃªncia
+            </label>
+            <select 
+              id="abs-type" 
+              name="type"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              aria-required="true"
+            >
+              <option value="" disabled>Selecione o tipo</option>
+              <option value="folga">Folga</option>
+              <option value="folga_comerciario">Folga ComerciÃ¡rio</option>
+              <option value="feriado">Feriado</option>
+              <option value="ferias">FÃ©rias</option>
+              <option value="atestado">Atestado MÃ©dico</option>
+              <option value="afastamento">Afastamento</option>
+              <option value="falta">Falta</option>
+            </select>
+          </div>
+
+          <!-- PerÃ­odo: Data InÃ­cio e Fim -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="abs-start" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Data de InÃ­cio
+              </label>
+              <input 
+                type="date" 
+                id="abs-start" 
+                name="startDate"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+                aria-required="true"
+              >
+            </div>
+
+            <div>
+              <label for="abs-end" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Data de TÃ©rmino
+              </label>
+              <input 
+                type="date" 
+                id="abs-end" 
+                name="endDate"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <!-- Motivo/Justificativa -->
+          <div>
+            <label for="abs-reason" class="block text-sm font-semibold text-gray-200 mb-2">
+              Motivo / Justificativa (Opcional)
+            </label>
+            <textarea 
+              id="abs-reason" 
+              name="reason"
+              rows="3"
+              placeholder="Descreva o motivo da ausÃªncia..."
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm resize-none"
+            ></textarea>
+          </div>
+        </section>
+
+        <!-- SEÃ‡ÃƒO 2: STATUS E APROVAÃ‡ÃƒO -->
+        <section class="space-y-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <h3 class="text-lg font-semibold text-white">Status de AprovaÃ§Ã£o</h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="flex items-center p-3 border-2 border-white/10 rounded-lg cursor-pointer hover:bg-white/5 transition-colors">
+              <input 
+                type="radio" 
+                name="status" 
+                value="aprovado"
+                class="w-4 h-4 accent-green-500"
+              >
+              <span class="ml-3 text-white font-medium">âœ“ Aprovado</span>
+            </label>
+
+            <label class="flex items-center p-3 border-2 border-white/10 rounded-lg cursor-pointer hover:bg-white/5 transition-colors">
+              <input 
+                type="radio" 
+                name="status" 
+                value="pendente"
+                checked
+                class="w-4 h-4 accent-yellow-500"
+              >
+              <span class="ml-3 text-white font-medium">â³ Pendente</span>
+            </label>
+
+            <label class="flex items-center p-3 border-2 border-white/10 rounded-lg cursor-pointer hover:bg-white/5 transition-colors">
+              <input 
+                type="radio" 
+                name="status" 
+                value="rejeitado"
+                class="w-4 h-4 accent-red-500"
+              >
+              <span class="ml-3 text-white font-medium">âœ— Rejeitado</span>
+            </label>
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <!-- RODAPÃ‰ -->
+    <div class="flex gap-3 p-4 sm:p-6 border-t border-white/10 bg-black/20">
+      <button 
+        type="button"
+        onclick="hideAbsenceModal()" 
+        class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        form="absence-form"
+        id="absence-submit-btn"
+        class="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl"
+      >
+        Registrar AusÃªncia
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 3. MODAL: OCORRÃŠNCIAS (Refatorado)                                                            -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="occurrence-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6" role="dialog" aria-labelledby="occurrence-modal-title" aria-modal="true">
+  <div class="glass-modal-inner occurrence-modal-card rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fadeIn">
+    
+    <!-- CABEÃ‡ALHO -->
+    <div class="glass-modal-bar flex justify-between items-center p-4 sm:p-6 border-b border-white/10">
+      <div>
+        <h2 id="occurrence-modal-title" class="text-xl sm:text-2xl font-bold text-white">Registrar OcorrÃªncia</h2>
+        <p class="text-sm text-gray-300 mt-1">Registre eventos, advertÃªncias, elogios e incidentes</p>
+      </div>
+      <button 
+        onclick="hideOccurrenceModal()" 
+        type="button"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-300 hover:text-white"
+        aria-label="Fechar modal"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CONTEÃšDO -->
+    <div class="flex-1 overflow-y-auto">
+      <form id="occurrence-form" onsubmit="saveOccurrence(event)" class="p-4 sm:p-6 space-y-6">
+        <input type="hidden" id="occurrence-edit-id">
+
+        <!-- SEÃ‡ÃƒO 1: INFORMAÃ‡Ã•ES -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">InformaÃ§Ãµes da OcorrÃªncia</h3>
+
+          <!-- Colaborador -->
+          <div>
+            <label for="occ-Collaborator" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> Colaborador
+            </label>
+            <select 
+              id="occ-Collaborator" 
+              name="Collaborator"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              aria-required="true"
+            >
+              <option value="" disabled>Selecione um colaborador</option>
+            </select>
+          </div>
+
+          <!-- Data e ClassificaÃ§Ã£o -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="occ-date" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Data do Fato
+              </label>
+              <input 
+                type="date" 
+                id="occ-date" 
+                name="date"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+                aria-required="true"
+              >
+            </div>
+
+            <div>
+              <label for="occ-type" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> ClassificaÃ§Ã£o
+              </label>
+              <select 
+                id="occ-type" 
+                name="type"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+                aria-required="true"
+              >
+                <option value="" disabled>Selecione a classificaÃ§Ã£o</option>
+                <option value="elogio">ðŸŒŸ Elogio</option>
+                <option value="advertencia">âš ï¸ AdvertÃªncia</option>
+                <option value="atraso">ðŸ• Atraso</option>
+                <option value="incidente">ðŸš¨ Incidente</option>
+                <option value="outro">ðŸ“‹ Outro</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- DescriÃ§Ã£o Detalhada -->
+          <div>
+            <label for="occ-description" class="block text-sm font-semibold text-gray-200 mb-2">
+              <span class="text-red-400">*</span> DescriÃ§Ã£o Detalhada
+            </label>
+            <textarea 
+              id="occ-description" 
+              name="description"
+              rows="4"
+              required
+              placeholder="Descreva em detalhes o fato ocorrido, contexto, testemunhas e aÃ§Ãµes tomadas..."
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm resize-none"
+              aria-required="true"
+            ></textarea>
+            <p class="text-xs text-gray-400 mt-1">MÃ­nimo 20 caracteres</p>
+          </div>
+
+          <!-- Testemunhas (opcional) -->
+          <div>
+            <label for="occ-witnesses" class="block text-sm font-semibold text-gray-200 mb-2">
+              Testemunhas (Opcional)
+            </label>
+            <input 
+              type="text" 
+              id="occ-witnesses" 
+              name="witnesses"
+              placeholder="Nomes dos testemunhas separados por vÃ­rgula"
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm"
+            >
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <!-- RODAPÃ‰ -->
+    <div class="flex gap-3 p-4 sm:p-6 border-t border-white/10 bg-black/20">
+      <button 
+        type="button"
+        onclick="hideOccurrenceModal()" 
+        class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        form="occurrence-form"
+        id="occurrence-submit-btn"
+        class="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl"
+      >
+        Registrar OcorrÃªncia
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 4. MODAL: EXCLUSÃƒO (Refatorado)                                                               -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="delete-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4" role="alertdialog" aria-modal="true">
+  <div class="glass-modal-inner bg-gradient-to-br from-red-950/30 to-red-900/20 border border-red-500/30 rounded-xl w-full max-w-sm shadow-2xl animate-fadeIn">
+    <div class="p-6 sm:p-8 text-center">
+      <!-- ÃCONE DE ALERTA -->
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center">
+        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+
+      <!-- TEXTO -->
+      <h2 class="text-xl font-bold text-red-300 mb-2">Confirmar ExclusÃ£o</h2>
+      <p id="delete-message" class="text-gray-300 text-sm mb-6">
+        Tem certeza que deseja excluir este item? Esta aÃ§Ã£o Ã© irreversÃ­vel.
+      </p>
+
+      <!-- BOTÃ•ES -->
+      <div class="flex gap-3">
+        <button 
+          type="button"
+          onclick="hideDeleteModal()" 
+          class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button"
+          onclick="confirmDelete()" 
+          id="confirm-delete-btn"
+          class="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl"
+        >
+          Excluir Permanentemente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 5. MODAL: AVALIAÃ‡ÃƒO DE DESEMPENHO (Refatorado)                                                 -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="performance-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6" role="dialog" aria-labelledby="performance-modal-title" aria-modal="true">
+  <div class="glass-modal-inner rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fadeIn">
+    
+    <!-- CABEÃ‡ALHO -->
+    <div class="glass-modal-bar flex justify-between items-center p-4 sm:p-6 border-b border-white/10">
+      <div>
+        <h2 id="performance-modal-title" class="text-xl sm:text-2xl font-bold text-white">AvaliaÃ§Ã£o de Desempenho</h2>
+        <p class="text-sm text-gray-300 mt-1">Avalie o desempenho, competÃªncias e Ã¡reas de desenvolvimento</p>
+      </div>
+      <button 
+        onclick="hidePerformanceModal()" 
+        type="button"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-300 hover:text-white"
+        aria-label="Fechar modal"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CONTEÃšDO -->
+    <div class="flex-1 overflow-y-auto">
+      <form id="performance-form" onsubmit="savePerformanceReview(event)" class="p-4 sm:p-6 space-y-6">
+        <input type="hidden" id="performance-edit-id">
+
+        <!-- SEÃ‡ÃƒO 1: COLABORADOR E PERÃODO -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">Dados da AvaliaÃ§Ã£o</h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="perf-Collaborator" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Colaborador
+              </label>
+              <select 
+                id="perf-Collaborator" 
+                name="Collaborator"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="" disabled>Selecione um colaborador</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="perf-cycle" class="block text-sm font-semibold text-gray-200 mb-2">
+                <span class="text-red-400">*</span> Ciclo de AvaliaÃ§Ã£o
+              </label>
+              <select 
+                id="perf-cycle" 
+                name="cycle"
+                required
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="" disabled>Selecione o ciclo</option>
+                <option value="2024-Q1">2024 - 1Âº Trimestre</option>
+                <option value="2024-Q2">2024 - 2Âº Trimestre</option>
+                <option value="2024-Q3">2024 - 3Âº Trimestre</option>
+                <option value="2024-Q4">2024 - 4Âº Trimestre</option>
+                <option value="2025-Q1">2025 - 1Âº Trimestre</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÃ‡ÃƒO 2: CRITÃ‰RIOS DE AVALIAÃ‡ÃƒO -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">CritÃ©rios de Desempenho</h3>
+
+          <!-- Desempenho Geral -->
+          <div class="p-4 bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/20 rounded-lg">
+            <label for="perf-overall" class="block text-sm font-semibold text-gray-200 mb-3">
+              <span class="text-red-400">*</span> Desempenho Geral
+            </label>
+            <select 
+              id="perf-overall" 
+              name="overall"
+              required
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+            >
+              <option value="">Selecione a nota</option>
+              <option value="A">â­â­â­â­â­ Excelente (A)</option>
+              <option value="B">â­â­â­â­ Muito Bom (B)</option>
+              <option value="C">â­â­â­ Bom (C)</option>
+              <option value="D">â­â­ Precisa Melhorar (D)</option>
+              <option value="F">â­ InsatisfatÃ³rio (F)</option>
+            </select>
+          </div>
+
+          <!-- CompetÃªncias -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="perf-technical" class="block text-sm font-semibold text-gray-200 mb-2">
+                CompetÃªncia TÃ©cnica
+              </label>
+              <select 
+                id="perf-technical" 
+                name="technical"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="">NÃ£o avaliado</option>
+                <option value="A">A - Excelente</option>
+                <option value="B">B - Muito Bom</option>
+                <option value="C">C - Bom</option>
+                <option value="D">D - Precisa Melhorar</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="perf-communication" class="block text-sm font-semibold text-gray-200 mb-2">
+                ComunicaÃ§Ã£o
+              </label>
+              <select 
+                id="perf-communication" 
+                name="communication"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="">NÃ£o avaliado</option>
+                <option value="A">A - Excelente</option>
+                <option value="B">B - Muito Bom</option>
+                <option value="C">C - Bom</option>
+                <option value="D">D - Precisa Melhorar</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="perf-teamwork" class="block text-sm font-semibold text-gray-200 mb-2">
+                Trabalho em Equipe
+              </label>
+              <select 
+                id="perf-teamwork" 
+                name="teamwork"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="">NÃ£o avaliado</option>
+                <option value="A">A - Excelente</option>
+                <option value="B">B - Muito Bom</option>
+                <option value="C">C - Bom</option>
+                <option value="D">D - Precisa Melhorar</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="perf-commitment" class="block text-sm font-semibold text-gray-200 mb-2">
+                Comprometimento
+              </label>
+              <select 
+                id="perf-commitment" 
+                name="commitment"
+                class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm appearance-none"
+              >
+                <option value="">NÃ£o avaliado</option>
+                <option value="A">A - Excelente</option>
+                <option value="B">B - Muito Bom</option>
+                <option value="C">C - Bom</option>
+                <option value="D">D - Precisa Melhorar</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÃ‡ÃƒO 3: COMENTÃRIOS -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-white">ObservaÃ§Ãµes</h3>
+
+          <div>
+            <label for="perf-strengths" class="block text-sm font-semibold text-gray-200 mb-2">
+              Pontos Fortes
+            </label>
+            <textarea 
+              id="perf-strengths" 
+              name="strengths"
+              rows="3"
+              placeholder="Descreva os principais pontos fortes do colaborador..."
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm resize-none"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="perf-development" class="block text-sm font-semibold text-gray-200 mb-2">
+              Ãreas de Desenvolvimento
+            </label>
+            <textarea 
+              id="perf-development" 
+              name="development"
+              rows="3"
+              placeholder="Descreva as Ã¡reas que precisam de desenvolvimento..."
+              class="w-full px-4 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder-gray-400 focus:border-orange-500 focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 transition-all text-sm resize-none"
+            ></textarea>
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <!-- RODAPÃ‰ -->
+    <div class="flex gap-3 p-4 sm:p-6 border-t border-white/10 bg-black/20">
+      <button 
+        type="button"
+        onclick="hidePerformanceModal()" 
+        class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        form="performance-form"
+        id="performance-submit-btn"
+        class="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl"
+      >
+        Salvar AvaliaÃ§Ã£o
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- 6. MODAL: ESCALA DE GERENTES (Refatorado)                                                      -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<div id="mgcal-day-modal" class="hidden fixed inset-0 bg-black/35 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6" role="dialog" aria-labelledby="mgcal-modal-title" aria-modal="true">
+  <div class="glass-modal-inner rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fadeIn" style="background: linear-gradient(180deg, rgba(15, 10, 5, 0.95), rgba(30, 20, 10, 0.92));">
+    
+    <!-- CABEÃ‡ALHO -->
+    <div style="background: linear-gradient(180deg, rgba(50, 25, 5, 0.9), rgba(20, 15, 5, 0.95)); border-bottom: 1px solid rgba(245, 158, 11, 0.2);" class="flex justify-between items-center p-4 sm:p-6">
+      <div>
+        <h2 id="mgcal-modal-title" class="text-xl sm:text-2xl font-bold text-amber-100">Editar Dia da Escala</h2>
+        <p class="text-sm text-amber-200 mt-1">Configure os gerentes para os turnos do dia</p>
+      </div>
+      <button 
+        onclick="hideMgCalModal()" 
+        type="button"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors text-amber-200 hover:text-amber-100"
+        aria-label="Fechar modal"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CONTEÃšDO -->
+    <div class="flex-1 overflow-y-auto">
+      <form id="mgcal-day-form" onsubmit="saveMgCalDay(event)" class="p-4 sm:p-6 space-y-6">
+        <input type="hidden" id="mgcal-edit-date">
+
+        <!-- SEÃ‡ÃƒO 1: TURNOS -->
+        <section class="space-y-4">
+          <h3 class="text-lg font-semibold text-amber-100">Turnos do Dia</h3>
+
+          <!-- Turno de Abertura -->
+          <div>
+            <label for="mgcal-abert" class="block text-sm font-semibold text-amber-100 mb-2">
+              ðŸ”“ Turno de Abertura
+            </label>
+            <select 
+              id="mgcal-abert" 
+              name="opening"
+              class="w-full px-4 py-3 bg-black/40 border border-amber-500/30 rounded-lg text-amber-100 focus:border-amber-400 focus:bg-black/60 focus:ring-2 focus:ring-amber-400/20 transition-all text-sm appearance-none"
+            >
+              <option value="">â€” Nenhum Gerente â€”</option>
+            </select>
+            <p class="text-xs text-amber-300/70 mt-1">Gerente responsÃ¡vel pela abertura (geralmente 07h - 13h)</p>
+          </div>
+
+          <!-- Turno IntermediÃ¡rio -->
+          <div>
+            <label for="mgcal-interm" class="block text-sm font-semibold text-amber-100 mb-2">
+              â¬ Turno IntermediÃ¡rio
+            </label>
+            <select 
+              id="mgcal-interm" 
+              name="middle"
+              class="w-full px-4 py-3 bg-black/40 border border-amber-500/30 rounded-lg text-amber-100 focus:border-amber-400 focus:bg-black/60 focus:ring-2 focus:ring-amber-400/20 transition-all text-sm appearance-none"
+            >
+              <option value="">â€” Nenhum Gerente â€”</option>
+            </select>
+            <p class="text-xs text-amber-300/70 mt-1">Gerente responsÃ¡vel pelo perÃ­odo intermediÃ¡rio (geralmente 13h - 18h)</p>
+          </div>
+
+          <!-- Turno de Fechamento -->
+          <div>
+            <label for="mgcal-fech" class="block text-sm font-semibold text-amber-100 mb-2">
+              ðŸ” Turno de Fechamento
+            </label>
+            <select 
+              id="mgcal-fech" 
+              name="closing"
+              class="w-full px-4 py-3 bg-black/40 border border-amber-500/30 rounded-lg text-amber-100 focus:border-amber-400 focus:bg-black/60 focus:ring-2 focus:ring-amber-400/20 transition-all text-sm appearance-none"
+            >
+              <option value="">â€” Nenhum Gerente â€”</option>
+            </select>
+            <p class="text-xs text-amber-300/70 mt-1">Gerente responsÃ¡vel pelo fechamento (geralmente 18h - 22h)</p>
+          </div>
+        </section>
+
+        <!-- INFORMAÃ‡ÃƒO IMPORTANTE -->
+        <div class="p-4 bg-amber-900/30 border border-amber-500/40 rounded-lg">
+          <p class="text-sm text-amber-100">
+            <span class="font-semibold">ðŸ’¡ Dica:</span> Cada gerente pode estar escalado em apenas um turno por dia. Configure conforme a disponibilidade.
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- RODAPÃ‰ -->
+    <div class="flex gap-3 p-4 sm:p-6 border-t border-amber-500/20 bg-black/30">
+      <button 
+        type="button"
+        onclick="hideMgCalModal()" 
+        class="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg text-gray-300 font-medium transition-colors text-sm"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        form="mgcal-day-form"
+        id="mgcal-submit-btn"
+        class="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-medium rounded-lg transition-all text-sm shadow-lg hover:shadow-xl"
+      >
+        Salvar Escala
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ESTILOS DE ANIMAÃ‡ÃƒO E UTILITÃRIOS -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  /* Suporte a seleÃ§Ã£o customizada em selects */
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fbbf24' stroke-width='2'%3E%3Cpath d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25rem;
+    padding-right: 2.75rem;
+  }
+
+  /* Estado disabled para botÃµes */
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>
+
